@@ -37,7 +37,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: _screens[_currentIndex], // Display the screen based on current tab
+        child:
+            _screens[_currentIndex], // Display the screen based on current tab
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, // Active tab index
@@ -70,7 +71,8 @@ class _HomeState extends State<Home> {
 
 // ExplorePage - a page for property exploration and recommendations
 class ExplorePage extends StatelessWidget {
-  final TextEditingController searchController = TextEditingController(); // Search field controller
+  final TextEditingController searchController =
+      TextEditingController(); // Search field controller
 
   ExplorePage({super.key});
 
@@ -84,55 +86,73 @@ class ExplorePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Search Bar UI
-                TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    hintText: 'Try "Apartment in Mumbai"', // Search hint
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                // Search Bar
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      hintText: 'Where to?',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 5),
 
                 // Horizontal List of Categories
-                const Text(
-                  'What can we help you find?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  height: 120, // Set the height for the horizontal list
-                  color: Colors.white,
+                SizedBox(
+                  height: 60,
                   child: ListView(
-                    scrollDirection: Axis.horizontal, // Scroll horizontally
-                    children: const [
-                      CategoryTile(title: "Flats", icon: Icons.house),
-                      CategoryTile(title: "Bungalows", icon: Icons.bungalow),
-                      CategoryTile(title: "Apartments", icon: Icons.apartment),
-                      CategoryTile(title: "Cottages", icon: Icons.cottage),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          print('Amazing Views');
+                        },
+                        child: categoryIcon(Icons.landscape, "Amazing views"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('Icons');
+                        },
+                        child: categoryIcon(Icons.star, "Icons"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('Amazing Pools');
+                        },
+                        child: categoryIcon(Icons.pool, "Amazing pools"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('Farm Houses');
+                        },
+                        child: categoryIcon(Icons.agriculture, "Farms"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('Mansions');
+                        },
+                        child: categoryIcon(Icons.house, "Mansions"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('Camping Sites');
+                        },
+                        child: categoryIcon(Icons.fireplace, "Camping"),
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
 
                 // Vertical List of Recommendations
-                const Text(
-                  'Recommended for you',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 ListView.builder(
                   shrinkWrap: true, // Prevents the list from taking full space
-                  physics: const NeverScrollableScrollPhysics(), // Prevent scrolling inside list
+                  physics:
+                      const NeverScrollableScrollPhysics(), // Prevent scrolling inside list
                   itemCount: 5, // Number of items in the list
                   itemBuilder: (context, index) {
                     return const PropertyTile(); // Property recommendation tile
@@ -187,49 +207,61 @@ class PropertyTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            'assets/images.jpg', // Placeholder image
-            width: double.infinity,
-            height: 250, // Set height for the image
-            fit: BoxFit.cover, // Fit the image to the container
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the PropertyDetailsPage when tapped
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PropertyDetailsPage(),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Entire Cottage - Cozy Stay', // Property title
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'From ₹10,000/night', // Property price
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.yellow[600], size: 18),
-                    const SizedBox(width: 4),
-                    const Text('4.8', style: TextStyle(fontSize: 16)), // Property rating
-                  ],
-                ),
-              ],
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              'assets/images.jpg', // Placeholder image
+              width: double.infinity,
+              height: 250, // Set height for the image
+              fit: BoxFit.cover, // Fit the image to the container
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Entire Cottage - Cozy Stay', // Property title
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'From ₹10,000/night', // Property price
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.yellow[600], size: 18),
+                      const SizedBox(width: 4),
+                      const Text('4.8',
+                          style: TextStyle(fontSize: 16)), // Property rating
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -279,7 +311,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _logout() async {
     await FirebaseAuth.instance.signOut(); // Sign out the user
     // You can navigate to the login screen here if needed
-    Navigator.of(context).pop(); // Go back to the previous screen (if necessary)
+    Navigator.of(context)
+        .pop(); // Go back to the previous screen (if necessary)
   }
 
   @override
@@ -288,14 +321,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       future: _userData, // Fetch user data asynchronously
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator()); // Loading indicator
+          return const Center(
+              child: CircularProgressIndicator()); // Loading indicator
         }
         if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}')); // Error message
+          return Center(
+              child: Text('Error: ${snapshot.error}')); // Error message
         }
 
         // Extract user data from the snapshot
-        Map<String, dynamic> userData = snapshot.data!.data() as Map<String, dynamic>;
+        Map<String, dynamic> userData =
+            snapshot.data!.data() as Map<String, dynamic>;
 
         // Populate text controllers with user data
         _usernameController.text = userData['name'] ?? '';
@@ -328,25 +364,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 16),
                 TextField(
                   controller: _panController,
-                  decoration: const InputDecoration(labelText: 'PAN Card Number'),
+                  decoration:
+                      const InputDecoration(labelText: 'PAN Card Number'),
                 ),
                 const SizedBox(height: 30),
-                
+
                 // Update Profile button
                 ElevatedButton(
                   onPressed: _updateUserInfo, // Update user information
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15), // Button padding
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15), // Button padding
                     backgroundColor: Colors.red[800], // Button color
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30), // Rounded corners
+                      borderRadius:
+                          BorderRadius.circular(30), // Rounded corners
                     ),
-                    minimumSize: const Size(double.infinity, 60), // Full-width button
-
+                    minimumSize:
+                        const Size(double.infinity, 60), // Full-width button
                   ),
                   child: Text(
                     'Update Profile',
-                    style: GoogleFonts.poppins(fontSize: 16, color: Colors.white), // Button text style
+                    style: GoogleFonts.poppins(
+                        fontSize: 16, color: Colors.white), // Button text style
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -355,16 +395,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ElevatedButton(
                   onPressed: _logout, // Logout the user
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15), // Button padding
-                    backgroundColor: const Color.fromARGB(255, 84, 56, 225), // Button color
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15), // Button padding
+                    backgroundColor:
+                        const Color.fromARGB(255, 84, 56, 225), // Button color
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30), // Rounded corners
+                      borderRadius:
+                          BorderRadius.circular(30), // Rounded corners
                     ),
-                    minimumSize: const Size(double.infinity, 60), // Full-width button
+                    minimumSize:
+                        const Size(double.infinity, 60), // Full-width button
                   ),
                   child: Text(
                     'Logout',
-                    style: GoogleFonts.poppins(fontSize: 16, color: Colors.white), // Button text style
+                    style: GoogleFonts.poppins(
+                        fontSize: 16, color: Colors.white), // Button text style
                   ),
                 ),
               ],
@@ -372,6 +417,77 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+Widget categoryIcon(IconData icon, String title) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+    child: Column(
+      children: [
+        Icon(icon, size: 30),
+        Text(title),
+      ],
+    ),
+  );
+}
+
+class PropertyDetailsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Property Details'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Display the image uploaded
+          Image.asset('assets/images.jpg'),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('StayVista at Desert Palms in Anjar-Kutch w/t Pool',
+                    style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                SizedBox(height: 8),
+                Text('Anjar, Kutch, India'),
+                SizedBox(height: 8),
+                Text('₹16,641/night', style: TextStyle(fontSize: 18)),
+                SizedBox(height: 8),
+                Text(
+                    'Imagine a sanctuary of peace and serenity away from the hustle and bustle of everyday life, amidst lush greenery. This enormous eco-stay is encircled by 65 acres of endless fields and fruit orchards!',
+                    style: TextStyle(fontSize: 16)),
+              ],
+            ),
+          ),
+        ],
+      ),
+      // Add the button at the bottom of the page
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SizedBox(
+          width: double.infinity,
+          height: 50, // You can adjust the height as needed
+          child: ElevatedButton(
+            onPressed: () {
+              // Action for the 3D model button press
+              print("3D Model button pressed");
+              // Navigate or show a 3D model view here
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Set your desired color
+            ),
+            child: Text(
+              '3D Model',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
