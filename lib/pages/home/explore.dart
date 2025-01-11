@@ -20,27 +20,25 @@ class ExplorePage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: 'Where to?',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
+                  child: Material(
+                    elevation: 5, // Add shadow effect
+                    borderRadius: BorderRadius.circular(30), // Match the search bar's border radius
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: 'Where to?',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none, // Remove the border outline
+                        ),
+                        filled: true, // Optional: Add a background color
+                        fillColor: Colors.white, // Optional: Background color for contrast
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
-
-                // const Text(
-                //   'Recommended for you',
-                //   style: TextStyle(
-                //     fontSize: 18,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
 
                 // StreamBuilder for Firestore data
                 StreamBuilder<QuerySnapshot>(
@@ -69,7 +67,7 @@ class ExplorePage extends StatelessWidget {
                         final imageUrl =
                             property['imageUrl']?.isNotEmpty == true
                                 ? property['imageUrl']
-                                : 'assets/images.jpg'; // Fallback to default
+                                : 'assets/images/images.png'; // Fallback to default
 
                         return PropertyTile(
                           title: title,
@@ -206,10 +204,8 @@ class PropertyDetailsPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Main Content
           ListView(
             children: [
-              // Header Image
               Stack(
                 children: [
                   Hero(
@@ -243,7 +239,6 @@ class PropertyDetailsPage extends StatelessWidget {
                     top: 40,
                     right: 16,
                     child: IconButton(
-                      // ignore: avoid_print
                       onPressed: () => print('Favorite tapped'),
                       icon: const Icon(Icons.favorite_border,
                           color: Colors.white),
@@ -277,8 +272,6 @@ class PropertyDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // Details Section
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -365,16 +358,4 @@ class PropertyDetailsPage extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget categoryIcon(IconData icon, String title) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: .0),
-    child: Column(
-      children: [
-        Icon(icon, size: 30),
-        Text(title),
-      ],
-    ),
-  );
 }
