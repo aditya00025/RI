@@ -1,8 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter03/pages/signup/signup.dart';
 import 'package:flutter03/pages/forgot_password/forgot_password.dart'; // Import the forgot password page
@@ -21,7 +20,7 @@ class Login extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       bottomNavigationBar: _signup(context),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(76, 82, 202, 1),
+        backgroundColor: const Color.fromRGBO(76, 82, 202, 1),
         elevation: 0,
         toolbarHeight: 0,
       ),
@@ -32,8 +31,9 @@ class Login extends StatelessWidget {
             children: [
               // Background with animation
               Container(
-                height: MediaQuery.of(context).size.height * 0.4, // Adjust height to 40% of screen height
-                decoration: BoxDecoration(
+                height: MediaQuery.of(context).size.height *
+                    0.4, // Adjust height to 40% of screen height
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/background.png'),
                     fit: BoxFit.fill,
@@ -46,9 +46,9 @@ class Login extends StatelessWidget {
                       width: 80,
                       height: 200,
                       child: FadeInUp(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/images/light-1.png'),
                             ),
@@ -61,9 +61,9 @@ class Login extends StatelessWidget {
                       width: 80,
                       height: 150,
                       child: FadeInUp(
-                        duration: Duration(milliseconds: 1200),
+                        duration: const Duration(milliseconds: 1200),
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/images/light-2.png'),
                             ),
@@ -77,9 +77,9 @@ class Login extends StatelessWidget {
                       width: 80,
                       height: 150,
                       child: FadeInUp(
-                        duration: Duration(milliseconds: 1300),
+                        duration: const Duration(milliseconds: 1300),
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/images/clock.png'),
                             ),
@@ -89,10 +89,10 @@ class Login extends StatelessWidget {
                     ),
                     Positioned(
                       child: FadeInUp(
-                        duration: Duration(milliseconds: 1600),
+                        duration: const Duration(milliseconds: 1600),
                         child: Container(
-                          margin: EdgeInsets.only(top: 50),
-                          child: Center(
+                          margin: const EdgeInsets.only(top: 50),
+                          child: const Center(
                             child: Text(
                               "Login",
                               style: TextStyle(
@@ -110,20 +110,23 @@ class Login extends StatelessWidget {
               ),
               // Form Fields and Sign In Button
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 60.0), // Adjusted padding
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 60.0), // Adjusted padding
                 child: Column(
                   children: <Widget>[
                     FadeInUp(
-                      duration: Duration(milliseconds: 1800),
+                      duration: const Duration(milliseconds: 1800),
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Color.fromRGBO(180, 180, 232, 1)),
-                              boxShadow: [
+                              border: Border.all(
+                                  color:
+                                      const Color.fromRGBO(180, 180, 232, 1)),
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Color.fromRGBO(143, 148, 251, .2),
                                   blurRadius: 20.0,
@@ -134,16 +137,17 @@ class Login extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                          color: Color.fromRGBO(255, 255, 255, 1)),
+                                          color:
+                                              Color.fromRGBO(255, 255, 255, 1)),
                                     ),
                                   ),
                                   child: TextField(
                                     controller: _emailController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Email Address",
                                     ),
@@ -152,14 +156,16 @@ class Login extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Container(
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Color.fromRGBO(180, 180, 232, 1)),
-                              boxShadow: [
+                              border: Border.all(
+                                  color:
+                                      const Color.fromRGBO(180, 180, 232, 1)),
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Color.fromRGBO(143, 148, 251, .2),
                                   blurRadius: 20.0,
@@ -170,11 +176,11 @@ class Login extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: TextField(
                                     controller: _passwordController,
                                     obscureText: true,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Password",
                                     ),
@@ -186,16 +192,17 @@ class Login extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     FadeInUp(
-                      duration: Duration(milliseconds: 1900),
+                      duration: const Duration(milliseconds: 1900),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(103, 110, 240, 1),
+                          backgroundColor:
+                              const Color.fromRGBO(103, 110, 240, 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
-                          minimumSize: Size(double.infinity, 60),
+                          minimumSize: const Size(double.infinity, 60),
                           elevation: 0,
                         ),
                         onPressed: () async {
@@ -203,13 +210,12 @@ class Login extends StatelessWidget {
                           String password = _passwordController.text.trim();
 
                           if (email.isEmpty || password.isEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Please fill in all fields",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.SNACKBAR,
-                              backgroundColor: Colors.black54,
-                              textColor: Colors.white,
-                              fontSize: 14.0,
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text("Email and password cannot be empty"),
+                                backgroundColor: Colors.red,
+                              ),
                             );
                             return;
                           }
@@ -221,25 +227,24 @@ class Login extends StatelessWidget {
                               context: context,
                             );
                           } catch (e) {
-                            Fluttertoast.showToast(
-                              msg: "Login failed. Please try again.",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.SNACKBAR,
-                              backgroundColor: Colors.redAccent,
-                              textColor: Colors.white,
-                              fontSize: 14.0,
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text("Login failed. Please try again."),
+                                backgroundColor: Colors.redAccent,
+                              ),
                             );
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           "Sign In",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
-                    SizedBox(height: 70),
+                    const SizedBox(height: 70),
                     FadeInUp(
-                      duration: Duration(milliseconds: 2000),
+                      duration: const Duration(milliseconds: 2000),
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -249,7 +254,7 @@ class Login extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           "Forgot Password?",
                           style: TextStyle(
                             color: Color.fromRGBO(62, 71, 246, 1),

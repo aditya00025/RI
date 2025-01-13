@@ -1,8 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter03/services/auth_service.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key});
@@ -14,7 +14,7 @@ class ForgotPasswordPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(76, 82, 202, 1),
+        backgroundColor: const Color.fromRGBO(76, 82, 202, 1),
         elevation: 0,
         toolbarHeight: 0,
       ),
@@ -26,7 +26,7 @@ class ForgotPasswordPage extends StatelessWidget {
               // Background with animation
               Container(
                 height: MediaQuery.of(context).size.height * 0.4,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/background.png'),
                     fit: BoxFit.fill,
@@ -39,9 +39,9 @@ class ForgotPasswordPage extends StatelessWidget {
                       width: 80,
                       height: 200,
                       child: FadeInUp(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/images/light-1.png'),
                             ),
@@ -54,9 +54,9 @@ class ForgotPasswordPage extends StatelessWidget {
                       width: 80,
                       height: 150,
                       child: FadeInUp(
-                        duration: Duration(milliseconds: 1200),
+                        duration: const Duration(milliseconds: 1200),
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/images/light-2.png'),
                             ),
@@ -70,9 +70,9 @@ class ForgotPasswordPage extends StatelessWidget {
                       width: 80,
                       height: 150,
                       child: FadeInUp(
-                        duration: Duration(milliseconds: 1300),
+                        duration: const Duration(milliseconds: 1300),
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/images/clock.png'),
                             ),
@@ -82,10 +82,10 @@ class ForgotPasswordPage extends StatelessWidget {
                     ),
                     Positioned(
                       child: FadeInUp(
-                        duration: Duration(milliseconds: 1600),
+                        duration: const Duration(milliseconds: 1600),
                         child: Container(
-                          margin: EdgeInsets.only(top: 100),
-                          child: Center(
+                          margin: const EdgeInsets.only(top: 100),
+                          child: const Center(
                             child: Text(
                               "Forgot Password",
                               style: TextStyle(
@@ -98,23 +98,40 @@ class ForgotPasswordPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Positioned(
+                      top: 40,
+                      left: 16,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(); // Go back to the previous screen
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
               // Form Fields and Reset Password Button
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 60.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 60.0),
                 child: Column(
                   children: <Widget>[
                     FadeInUp(
-                      duration: Duration(milliseconds: 1800),
+                      duration: const Duration(milliseconds: 1800),
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Color.fromRGBO(23, 28, 125, 1)),
-                          boxShadow: [
+                          border: Border.all(
+                              color: const Color.fromRGBO(23, 28, 125, 1)),
+                          boxShadow: const [
                             BoxShadow(
                               color: Color.fromRGBO(143, 148, 251, .2),
                               blurRadius: 20.0,
@@ -125,12 +142,12 @@ class ForgotPasswordPage extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                // border: Border(
-                                //   bottom: BorderSide(color: Color.fromRGBO(255, 255, 255, 1)),
-                                // ),
-                              ),
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
+                                  // border: Border(
+                                  //   bottom: BorderSide(color: Color.fromRGBO(255, 255, 255, 1)),
+                                  // ),
+                                  ),
                               child: TextField(
                                 controller: _emailController,
                                 decoration: InputDecoration(
@@ -144,56 +161,52 @@ class ForgotPasswordPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     FadeInUp(
-                      duration: Duration(milliseconds: 1900),
+                      duration: const Duration(milliseconds: 1900),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(103, 110, 240, 1),
+                          backgroundColor:
+                              const Color.fromRGBO(103, 110, 240, 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
-                          minimumSize: Size(double.infinity, 60),
+                          minimumSize: const Size(double.infinity, 60),
                           elevation: 0,
                         ),
                         onPressed: () async {
                           String email = _emailController.text.trim();
 
                           if (email.isEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Please enter your email",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.SNACKBAR,
-                              backgroundColor: Colors.black54,
-                              textColor: Colors.white,
-                              fontSize: 14.0,
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Please enter your email"),
+                                backgroundColor: Colors.red,
+                              ),
                             );
                             return;
                           }
 
                           try {
                             await AuthService().resetPassword(email: email);
-                            Fluttertoast.showToast(
-                              msg: "Password reset email sent!",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.SNACKBAR,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
-                              fontSize: 14.0,
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Password reset email sent!"),
+                                backgroundColor: Colors.green,
+                              ),
                             );
                             Navigator.pop(context);
                           } catch (e) {
-                            Fluttertoast.showToast(
-                              msg: "Error sending reset email. Please try again.",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.SNACKBAR,
-                              backgroundColor: Colors.redAccent,
-                              textColor: Colors.white,
-                              fontSize: 14.0,
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Error sending reset email. Please try again."),
+                                backgroundColor: Colors.redAccent,
+                              ),
                             );
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           "Reset Password",
                           style: TextStyle(color: Colors.white),
                         ),

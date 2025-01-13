@@ -60,7 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         return Scaffold(
           body: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 20.0), // Added padding at the top
+            padding: const EdgeInsets.fromLTRB(
+                20.0, 60.0, 20.0, 20.0), // Added padding at the top
             child: Column(
               children: [
                 ListTile(
@@ -69,8 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     child: Text(
                       userData['name'][0].toUpperCase(),
-                      style: const TextStyle(
-                          fontSize: 30, color: Colors.white),
+                      style: const TextStyle(fontSize: 30, color: Colors.white),
                     ),
                   ),
                   title: Text(
@@ -82,10 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   trailing: const SizedBox(height: 30),
                 ),
                 const SizedBox(height: 15),
-                const Divider(
-                    color: Colors.black,  // Change this color to whatever you want
-                    thickness: 3.0,  // Adjust this value to make the divider bold (thicker)
-                ),
+                const Divider(),
                 const ListTile(
                   title: Text(
                     'Personal Information',
@@ -109,10 +106,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: const Icon(Icons.credit_card),
                   title: const Text('PAN Card Number'),
                   subtitle: Text(userData['panCard']),
-                ),
-                const Divider(
-                    color: Colors.black,  // Change this color to whatever you want
-                    thickness: 3.0,  // Adjust this value to make the divider bold (thicker)
                 ),
                 const ListTile(
                   title: Text(
