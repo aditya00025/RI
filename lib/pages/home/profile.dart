@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -178,121 +178,125 @@ class UpdateProfile extends StatelessWidget {
     final TextEditingController panController =
         TextEditingController(text: pan);
 
+    var formKey;
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Update your personal information',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Update your personal information',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 30),
-                TextField(
-                  controller: usernameController,
-                  decoration: InputDecoration(
-                    labelText: 'Name',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: const Icon(Icons.person),
+              ),
+              const SizedBox(height: 30),
+              TextField(
+                controller: usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]'))
-                  ],
+                  prefixIcon: const Icon(Icons.person),
                 ),
-                const SizedBox(height: 20),
-                // TextField(
-                //   controller: emailController,
-                //   decoration: InputDecoration(
-                //     labelText: 'Email',
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(10),
-                //     ),
-                //     prefixIcon: const Icon(Icons.email),
-                //   ),
-                // ),
-                // const SizedBox(height: 20),
-                TextField(
-                  controller: phoneController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: const Icon(Icons.phone),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]'))
+                ],
+              ),
+              const SizedBox(height: 20),
+              // TextField(
+              //   controller: emailController,
+              //   decoration: InputDecoration(
+              //     labelText: 'Email',
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     prefixIcon: const Icon(Icons.email),
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
+              TextField(
+                controller: phoneController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Phone Number',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  prefixIcon: const Icon(Icons.phone),
                 ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: panController,
-                  decoration: InputDecoration(
-                    labelText: 'PAN Card Number',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: const Icon(Icons.credit_card),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(10),
+                ],
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: panController,
+                decoration: InputDecoration(
+                  labelText: 'PAN Card Number',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  prefixIcon: const Icon(Icons.credit_card),
                 ),
-                const SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    if (usernameController.text.isEmpty ||
-                        // emailController.text.isEmpty ||
-                        phoneController.text.isEmpty ||
-                        panController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Please fill in all fields.')),
-                      );
-                      return;
-                    }
-                    FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .update({
-                      'name': usernameController.text,
-                      'email': emailController.text,
-                      'phoneNumber': phoneController.text,
-                      'panCard': panController.text,
-                    }).catchError((error) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('Failed to update profile: $error')),
-                      );
-                    });
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ),
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(10),
+                ],
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () {
+                  if (usernameController.text.isEmpty ||
+                      // emailController.text.isEmpty ||
+                      phoneController.text.isEmpty ||
+                      panController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Please fill in all fields.')),
                     );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    backgroundColor: Colors.blue[700],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                    return;
+                  }
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .update({
+                    'name': usernameController.text,
+                    'email': emailController.text,
+                    'phoneNumber': phoneController.text,
+                    'panCard': panController.text,
+                  }).catchError((error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Failed to update profile: $error')),
+                    );
+                  });
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
                     ),
-                    minimumSize: const Size(double.infinity, 60),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  backgroundColor: Colors.blue[700],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  child: const Text(
-                    'Update Profile',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
+                  minimumSize: const Size(double.infinity, 60),
                 ),
-              ],
-            ),
+                child: const Text(
+                  'Update Profile',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -352,9 +356,6 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Change Password'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -362,6 +363,16 @@ class _ChangePasswordState extends State<ChangePassword> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Text(
+                'Change Password',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
               TextFormField(
                 controller: _currentPasswordController,
                 obscureText: true,
