@@ -238,40 +238,6 @@ class PropertyDetailsPage extends StatelessWidget {
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
                   ),
-                  const Positioned(
-                    top: 40,
-                    right: 16,
-                    child: IconButton(
-                      onPressed: null,
-                      icon: Icon(Icons.favorite_border, color: Colors.white),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    right: 16,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      child: const Row(
-                        children: [
-                          Icon(Icons.menu, color: Colors.white, size: 16),
-                          SizedBox(width: 4),
-                          Text(
-                            'TAKE A TOUR',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
               ),
               Padding(

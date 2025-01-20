@@ -68,7 +68,6 @@ flutter:
     - assets/images/images.jpg
     - assets/images/background.png
     - assets/images/light-1.png
-    # - assets/images/light-2.png
     - assets/images/clock.png
   #   - images/a_dot_ham.jpeg
 
