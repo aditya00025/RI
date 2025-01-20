@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter03/pages/home/home.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PersonalInfoScreen(
+        builder: (context) => UpdateProfile(
           name: userData['name'] ?? '',
           email: userData['email'] ?? '',
           phone: userData['phoneNumber'] ?? '',
@@ -68,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   leading: CircleAvatar(
                     radius: 30,
-                    backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                    backgroundColor: Colors.deepOrange,
                     child: Text(
                       userData['name'][0].toUpperCase(),
                       style: const TextStyle(fontSize: 30, color: Colors.white),
@@ -125,7 +126,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   leading: const Icon(Icons.password),
                   title: const Text('Change Password'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePassword(),
+                      ),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.logout),
@@ -145,13 +153,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-class PersonalInfoScreen extends StatelessWidget {
+class UpdateProfile extends StatelessWidget {
   final String name;
   final String email;
   final String phone;
   final String pan;
 
-  const PersonalInfoScreen({
+  const UpdateProfile({
     super.key,
     required this.name,
     required this.email,
@@ -195,21 +203,25 @@ class PersonalInfoScreen extends StatelessWidget {
                     ),
                     prefixIcon: const Icon(Icons.person),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]'))
+                  ],
                 ),
                 const SizedBox(height: 20),
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: const Icon(Icons.email),
-                  ),
-                ),
-                const SizedBox(height: 20),
+                // TextField(
+                //   controller: emailController,
+                //   decoration: InputDecoration(
+                //     labelText: 'Email',
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     prefixIcon: const Icon(Icons.email),
+                //   ),
+                // ),
+                // const SizedBox(height: 20),
                 TextField(
                   controller: phoneController,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'Phone Number',
                     border: OutlineInputBorder(
@@ -217,6 +229,9 @@ class PersonalInfoScreen extends StatelessWidget {
                     ),
                     prefixIcon: const Icon(Icons.phone),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                 ),
                 const SizedBox(height: 20),
                 TextField(
@@ -233,7 +248,7 @@ class PersonalInfoScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (usernameController.text.isEmpty ||
-                        emailController.text.isEmpty ||
+                        // emailController.text.isEmpty ||
                         phoneController.text.isEmpty ||
                         panController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -242,7 +257,6 @@ class PersonalInfoScreen extends StatelessWidget {
                       );
                       return;
                     }
-
                     FirebaseFirestore.instance
                         .collection('users')
                         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -251,11 +265,6 @@ class PersonalInfoScreen extends StatelessWidget {
                       'email': emailController.text,
                       'phoneNumber': phoneController.text,
                       'panCard': panController.text,
-                    }).then((_) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Profile updated successfully!')),
-                      );
                     }).catchError((error) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -284,6 +293,142 @@ class PersonalInfoScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({super.key});
+
+  @override
+  _ChangePasswordState createState() => _ChangePasswordState();
+}
+
+class _ChangePasswordState extends State<ChangePassword> {
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  Future<void> _changePassword() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    try {
+      // Get current user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // Re-authenticate user to update the password
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user!.email!,
+        password: _currentPasswordController.text,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // Update password
+      await user.updatePassword(_newPasswordController.text);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password changed successfully')),
+      );
+
+      // Navigate back after successful password change
+      Navigator.pop(context);
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to change password: $error')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Change Password'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: _currentPasswordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Current Password',
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your current password';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _newPasswordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'New Password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a new password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password should be at least 6 characters';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _confirmPasswordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Confirm New Password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please confirm your new password';
+                  }
+                  if (value != _newPasswordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: _changePassword,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  backgroundColor: Colors.blue[700],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  minimumSize: const Size(double.infinity, 60),
+                ),
+                child: const Text('Change Password'),
+              ),
+            ],
           ),
         ),
       ),
