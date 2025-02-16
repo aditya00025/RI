@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:model_viewer_plus/model_viewer_plus.dart';
+// import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 String sanitizeBase64(String base64String) {
   if (base64String.startsWith("data:")) {
@@ -381,25 +381,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
               SizedBox(
                 width: 140,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Scaffold(
-                          appBar: AppBar(title: const Text('3D Model Viewer')),
-                          body: const Center(
-                            child: ModelViewer(
-                              src: 'assets/kawashaki_ninja_h2.glb',
-                              alt: "A 3D model of an object",
-                              ar: true,
-                              autoRotate: true,
-                              cameraControls: true,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 243, 61, 70),
                     shape: RoundedRectangleBorder(
