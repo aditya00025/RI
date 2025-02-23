@@ -6,6 +6,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:model_viewer_plus/model_viewer_plus.dart';
 
+import 'package:model_viewer_plus/model_viewer_plus.dart';
+import 'payment.dart';
+
+
+
 String sanitizeBase64(String base64String) {
   if (base64String.startsWith("data:")) {
     int commaIndex = base64String.indexOf(',');
@@ -78,6 +83,7 @@ class HomeDetailsPage extends StatefulWidget {
 
 class _HomeDetailsPageState extends State<HomeDetailsPage> {
   DateTimeRange? selectedDates;
+
   Future<void> _selectDates(BuildContext context) async {
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
@@ -91,10 +97,30 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
     }
   }
 
+  void _show3DModel(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text('Model Viewer')),
+          body: const ModelViewer(
+            backgroundColor: Color.fromARGB(0xFF, 0xEE, 0xEE, 0xEE),
+            src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+            alt: 'A 3D model of an astronaut',
+            ar: true,
+            autoRotate: true,
+            iosSrc: 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz',
+            disableZoom: true,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(204, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,7 +324,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                   ),
                   Text(
                     widget.address,
-                    style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                    style: TextStyle(fontSize: 16, color: const Color.fromARGB(255, 11, 7, 235)),
                   ),
 
                   // Google Maps widget
@@ -321,34 +347,34 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                   ),
 
                   const SizedBox(height: 16),
-                  const Divider(color: Colors.grey),
+                  // const Divider(color: Colors.grey),
                   const SizedBox(height: 16),
-                  const Text('Select Dates',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () => _selectDates(context),
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            selectedDates == null
-                                ? 'Choose your dates'
-                                : '${selectedDates!.start.day}/${selectedDates!.start.month}/${selectedDates!.start.year} - ${selectedDates!.end.day}/${selectedDates!.end.month}/${selectedDates!.end.year}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          const Icon(Icons.calendar_today, color: Colors.grey),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // const Text('Select Dates',
+                  //     style:
+                  //         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  // const SizedBox(height: 8),
+                  // GestureDetector(
+                  //   onTap: () => _selectDates(context),
+                  //   child: Container(
+                  //     padding: const EdgeInsets.all(12),
+                  //     decoration: BoxDecoration(
+                  //       border: Border.all(color: Colors.grey),
+                  //       borderRadius: BorderRadius.circular(8),
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text(
+                  //           selectedDates == null
+                  //               ? 'Choose your dates'
+                  //               : '${selectedDates!.start.day}/${selectedDates!.start.month}/${selectedDates!.start.year} - ${selectedDates!.end.day}/${selectedDates!.end.month}/${selectedDates!.end.year}',
+                  //           style: const TextStyle(fontSize: 16),
+                  //         ),
+                  //         const Icon(Icons.calendar_today, color: Colors.grey),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 16),
                 ],
               ),
@@ -379,11 +405,22 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                 ),
               ),
               SizedBox(
-                width: 140,
+                height: 55,
+                width: 110,
                 child: ElevatedButton(
+
+                  onPressed: () {
+                    if (widget.model3D) {
+                      _show3DModel(context);
+                    } else {
+                      // Reserve action
+                    }
+                  },
+
                   onPressed: () {},
+
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 243, 61, 70),
+                    backgroundColor: const Color.fromARGB(255, 236, 76, 8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -393,9 +430,32 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                   child: Text(
                     widget.model3D ? '3D Model' : 'Reserve',
                     style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: Colors.white), // Decreased font size
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 55,
+                width: 105,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PaymentScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: const Text(
+                    'Reserve',
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ),
               ),

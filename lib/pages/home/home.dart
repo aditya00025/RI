@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.vrCardboard),
+            icon: Icon(FontAwesomeIcons.airbnb),
             label: 'Camera',
           ),
           BottomNavigationBarItem(
